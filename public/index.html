@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        p {
+            color: #666;
+            font-size: 16px;
+            margin: 10px;
+        }
+
+        input[type="tel"] {
+            padding: 15px;
+            font-size: 24px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 10px;
+        }
+
+        button {
+            border: none;
+            border-radius: 5px;
+            padding: 15px 30px;
+            cursor: pointer;
+        }
+
+        .lime-green {
+            background-color: limegreen;
+            color: #fff;
+            margin-top: 30px;
+            font-size: 18px;
+            padding: 15px;
+            text-decoration: none;
+        }
+
+        #result-display {
+            color: #333;
+            font-weight: bold;
+            margin: 10px;
+        }
+
+        #result-display2 {
+            color: #333;
+            font-weight: bold;
+            margin: 10px;
+        }
+
+        #number-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 7.5px;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .number-pad-button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 15px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bet Calculator</h1>
+    <p>Enter known 1st odds for 2nd odds result:</p>
+    <div id="result-display">Min =</div>
+    <div id="result-display2">Ideal =</div>
+    <input type="tel" id="inputNumber" pattern="[0-9]*">
+    <br>
+    <div id="number-pad">
+        <button class="number-pad-button" onclick="appendToInput(1)">1</button>
+        <button class="number-pad-button" onclick="appendToInput(2)">2</button>
+        <button class="number-pad-button" onclick="appendToInput(3)">3</button>
+        <button class="number-pad-button" onclick="appendToInput(4)">4</button>
+        <button class="number-pad-button" onclick="appendToInput(5)">5</button>
+        <button class="number-pad-button" onclick="appendToInput(6)">6</button>
+        <button class="number-pad-button" onclick="appendToInput(7)">7</button>
+        <button class="number-pad-button" onclick="appendToInput(8)">8</button>
+        <button class="number-pad-button" onclick="appendToInput(9)">9</button>
+        <button class="number-pad-button" onclick="appendToInput(0)">0</button>
+        <button class="number-pad-button" onclick="appendToInput('.')">.</button>
+        <button class="number-pad-button" onclick="backspace()">del</button>
+    </div>
+    <div style="display: flex;">
+        <a href="stake.html" class="lime-green">Stake Calc</a>
+        <a href="notifications.html" class="lime-green" style="margin-left: 10px;">Notifications</a>
+    </div>
+
+    <script>
+        const inputNumber = document.getElementById("inputNumber");
+        const output = document.getElementById("result-display");
+        const output2 = document.getElementById("result-display2");
+
+        function appendToInput(value) {
+            inputNumber.value += value;
+            updateResult();
+        }
+
+        function backspace() {
+            inputNumber.value = inputNumber.value.slice(0, -1);
+            updateResult();
+        }
+
+        function updateResult() {
+            const x = parseFloat(inputNumber.value);
+            if (!isNaN(x)) {
+                const result1 = (1 / (1 - 1/x)).toFixed(2);
+                const result2 = ((0.64 + 0.17 * x + (0.77 / (x - 0.37))) / (x - 1) + 1).toFixed(2);
+                output.textContent = `Min = ${result1}`;
+                output2.textContent = `Ideal = ${result2}`;
+            } else {
+                output.textContent = "Min =";
+                output2.textContent = "Ideal =";
+            }
+        }
+
+        inputNumber.addEventListener("input", updateResult);
+
+        document.addEventListener('dblclick', function(event) {
+            event.preventDefault();
+        }, { passive: false });
+    </script>
+</body>
+</html>

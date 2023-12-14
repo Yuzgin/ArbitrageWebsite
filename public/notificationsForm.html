@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        input {
+            padding: 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 10px;
+            width: 300px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 15px 30px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 12px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Notifications</h1>
+    <form id="inputForm">
+        <input type="email" id="inputEmail" placeholder="Enter your email" required>
+        <br>
+        <input type="url" id="inputURL" placeholder="Enter website URL" required>
+        <br>
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
+    <script>
+        function submitForm() {
+            const email = document.getElementById("inputEmail").value;
+            const url = document.getElementById("inputURL").value;
+
+            // You can send the data to the Node.js server
+            fetch('http://localhost:3000/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, url }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Optionally, reset the form after successful submission
+                document.getElementById("inputForm").reset();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

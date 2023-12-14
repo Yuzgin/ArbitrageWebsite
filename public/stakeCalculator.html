@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        p {
+            color: #666;
+            font-size: 16px;
+            margin: 10px;
+        }
+
+        input[type="number"] {
+            padding: 15px;
+            font-size: 24px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 10px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 15px 30px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #output {
+            color: #333;
+            font-weight: bold;
+            margin: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Bet Calculator</h1>
+    <p>Enter two sets of decimal odds:</p>
+    <input type="number" id="inputOdds1" step="0.01" placeholder="Decimal Odds 1">
+    <input type="number" id="inputOdds2" step="0.01" placeholder="Decimal Odds 2">
+    <p>Results:</p>
+    <div id="output">Top: £0.00, Bottom: £0.00</div>
+
+    <script>
+        const inputOdds1 = document.getElementById("inputOdds1");
+        const inputOdds2 = document.getElementById("inputOdds2");
+        const output = document.getElementById("output");
+
+        function calculateBets() {
+            const odds1 = parseFloat(inputOdds1.value);
+            const odds2 = parseFloat(inputOdds2.value);
+
+            if (!isNaN(odds1) && !isNaN(odds2)) {
+                const beta = 10;
+                const theta = (odds1 * beta) / odds2;
+                const y = theta + beta;
+                const z = odds1 * beta - y;
+                const c = 5 / z;
+
+                const newTheta = c * theta;
+                const newBeta = c * beta;
+
+                // Display the results correctly with the "£" symbol
+                output.textContent = `Top: £${newBeta.toFixed(2)}, Bottom: £${newTheta.toFixed(2)}`;
+            } else {
+                output.textContent = "Invalid odds";
+            }
+        }
+
+        inputOdds1.addEventListener("input", calculateBets);
+        inputOdds2.addEventListener("input", calculateBets);
+    </script>
+</body>
+</html>
