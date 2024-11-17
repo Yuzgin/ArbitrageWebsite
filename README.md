@@ -17,14 +17,13 @@ This project is a web-based arbitrage tool that integrates a **Node.js server** 
 
 ```
 local-arbitrage/
-├── PPSoT.py                 # Python script for market monitoring and email notifications
-├── index.js                 # Node.js server for handling requests
+├── WebScraper.py                 # Python script for market monitoring and email notifications
+├── server.js                 # Node.js server for handling requests
 ├── public/
-│   ├── stakeCalculator.html # Frontend for stake calculations
+│   ├── stakeCalculator.html # Frontend for further stake calculations
 │   ├── notificationsForm.html # Frontend for notifications setup
-│   ├── styles/              # CSS styles for the frontend
+│   ├── index.html              # Frontend home page with stake calculator
 ├── package.json             # Node.js dependencies and metadata
-├── requirements.txt         # Python dependencies
 └── README.md                # Documentation
 ```
 
@@ -47,7 +46,7 @@ local-arbitrage/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-repo/local-arbitrage.git
+git clone https://github.com/Yuzgin/local-arbitrage.git
 cd local-arbitrage
 ```
 
@@ -79,12 +78,12 @@ The server will run at `http://localhost:3000`.
 ### Run the Python Script
 The Python script is triggered automatically by the Node.js backend when a user submits a form on the frontend. However, you can also run it manually:
 ```bash
-python PPSoT.py <url> <smtp_server> <smtp_port> <sender_email> <sender_password> <recipient_email>
+python WebScraper.py <url> <smtp_server> <smtp_port> <sender_email> <sender_password> <recipient_email>
 ```
 
 Example:
 ```bash
-python PPSoT.py "http://example.com" "smtp.gmail.com" 587 "your-email@gmail.com" "your-password" "recipient@gmail.com"
+python WebScraper.py "http://example.com" "smtp.gmail.com" 587 "your-email@gmail.com" "your-password" "recipient@gmail.com"
 ```
 
 ---
@@ -110,13 +109,17 @@ Then modify the Python script to load these variables using `dotenv`.
 
 ## Frontend Functionality
 
-1. **Stake Calculator (`stakeCalculator.html`)**:
-   - Calculate ideal stakes for given odds.
+1. **HomePage Calculator (`index.html`)**:
+   - Calculate minimum odds required for arbitrage profit.
    - Results are displayed dynamically based on input.
 
 2. **Notifications Setup (`notificationsForm.html`)**:
    - Users can enter an email and URL to be monitored.
    - Sends a POST request to the backend, which triggers the Python script.
+
+3. **Stake Calculator ('stakeCalculator')**:
+   - Calculates stake needed for £5 profit given the two arbitrage odds.
+   - Displayed dynamically.
 
 ---
 
@@ -141,11 +144,6 @@ Then modify the Python script to load these variables using `dotenv`.
 - **Testing**: Add unit and integration tests for both Python and Node.js components.
 - **Database Integration**: Save user inputs and results for persistence.
 - **Enhanced UI**: Improve the frontend design and usability.
-
----
-
-## License
-This project is licensed under the MIT License. See `LICENSE` for details.
 
 ---
 
